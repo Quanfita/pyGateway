@@ -8,14 +8,14 @@ class Balancer:
         self._pool_map = {
             'cycle': self._cycle_server_pool,
             'random': self._normal_server_pool,
-            'cycle_weight': self._cycle_weight_server_pool,
-            'random_weight': self._weight_server_pool
+            'cycle-weight': self._cycle_weight_server_pool,
+            'random-weight': self._weight_server_pool
         }
         self._method_map = {
             'cycle': self._cycle_mode,
             'random': self._random_mode,
-            'cycle_weight': self._cycle_weight_mode,
-            'random_weight': self._random_weight_mode
+            'cycle-weight': self._cycle_weight_mode,
+            'random-weight': self._random_weight_mode
         }
         
         if mode:
