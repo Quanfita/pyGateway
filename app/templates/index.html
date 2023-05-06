@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>网关管理界面</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <style>
+    table {
+        table-layout: fixed;
+    }
+
+    th, td {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+  </style>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <script src="script.js"></script> -->
+</head>
+<body>
+  <div class="container">
+    <h1>网关管理界面</h1>
+    <hr>
+    <h2>服务管理</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addServiceModal">添加服务</button> 
+    <button type="button" class="btn btn-danger" id="deleteServiceBtn">删除服务</button> 
+    <button type="button" class="btn btn-warning" id="editServiceBtn">更改服务</button> 
+    <br><br>
+    <table class="table table-striped" id="serviceTable">
+      <thead>
+        <tr>
+          <th>选择</th>
+          <th>服务名称</th>
+          <th>端口号</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>服务1</td>
+          <td>8000</td>
+          <td>这是服务1的描述</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>服务2</td>
+          <td>8001</td>
+          <td>这是服务2的描述</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>节点管理</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNodeModal">添加节点</button> 
+    <button type="button" class="btn btn-danger" id="deleteNodeBtn">删除节点</button> 
+    <button type="button" class="btn btn-info" id="viewNodeBtn">查看节点</button> 
+    <br><br>
+    <table class="table table-striped" id="nodeTable">
+      <thead>
+        <tr>
+          <th>选择</th>
+          <th>节点地址</th>
+          <th>用户名</th>
+          <th>所属服务</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>192.168.1.1:8000</td>
+          <td>user1</td>
+          <td>服务1</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>192.168.1.2:8000</td>
+          <td>user2</td>
+          <td>服务1</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>192.168.1.3:8001</td>
+          <td>user3</td>
+          <td>服务2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 添加服务的模态框 -->
+  <div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="addServiceModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="addServiceModalLabel">添加服务</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="serviceName" class="col-sm-3 control-label">服务名称：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="serviceName" placeholder="请输入服务名称">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="port" class="col-sm-3 control-label">端口号：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="port" placeholder="请输入端口号">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description" class="col-sm-3 control-label">描述：</label>
+              <div class="col-sm-9">
+                <textarea class="form-control" id="description" rows="3"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="saveServiceBtn">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 更改服务的模态框 -->
+  <div class="modal fade" id="editServiceModal" tabindex="-1" role="dialog" aria-labelledby="editServiceModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="editServiceModalLabel">更改服务</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="editServiceName" class="col-sm-3 control-label">服务名称：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="editServiceName" placeholder="请输入服务名称">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="editPort" class="col-sm-3 control-label">端口号：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="editPort" placeholder="请输入端口号">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="editDescription" class="col-sm-3 control-label">描述：</label>
+              <div class="col-sm-9">
+                <textarea class="form-control" id="editDescription" rows="3"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="saveEditBtn">保存更改</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 添加节点的模态框 -->
+  <div class="modal fade" id="addNodeModal" tabindex="-1" role="dialog" aria-labelledby="addNodeModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="addNodeModalLabel">添加节点</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="nodeAddress" class="col-sm-3 control-label">节点地址：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="nodeAddress" placeholder="请输入节点地址">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="col-sm-3 control-label">用户名：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="username" placeholder="请输入用户名">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-sm-3 control-label">密码：</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" id="password" placeholder="请输入密码">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="serviceSelect" class="col-sm-3 control-label">所属服务：</label>
+              <div class="col-sm-9">
+                <select class="form-control" id="serviceSelect">
+                  <option>服务1</option>
+                  <option>服务2</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="saveNodeBtn">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 查看节点的模态框 -->
+  <div class="modal fade" id="viewNodeModal" tabindex="-1" role="dialog" aria-labelledby="viewNodeModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="viewNodeModalLabel">查看节点</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="viewNodeAddress" class="col-sm-3 control-label">节点地址：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="viewNodeAddress" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="viewUsername" class="col-sm-3 control-label">用户名：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="viewUsername" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="viewPassword" class="col-sm-3 control-label">密码：</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" id="viewPassword" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="viewService" class="col-sm-3 control-label">所属服务：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="viewService" readonly>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function() {
+        // 添加服务
+        $('#saveServiceBtn').click(function() {
+            var serviceName = $('#serviceName').val();
+            var port = $('#port').val();
+            var description = $('#description').val();
+            $('#addServiceModal').modal('hide');
+            $('#serviceTable').append('<tr>\
+                                        <td><input type="checkbox"></td>\
+                                        <td>' + serviceName + '</td>\
+                                        <td>' + port + '</td>\
+                                        <td>' + description + '</td>\
+                                        </tr>');
+        });
+
+        // 更改服务
+        var selectedServiceRow;
+        $('#editServiceBtn').click(function() {
+            var selectedService = $('#serviceTable input[type=checkbox]:checked');
+            if (selectedService.length != 1) {
+            alert('请选择一个服务进行更改！');
+            return;
+            }
+            selectedServiceRow = selectedService.parent().parent();
+            $('#editServiceName').val(selectedServiceRow.children('td').eq(1).text());
+            $('#editPort').val(selectedServiceRow.children('td').eq(2).text());
+            $('#editDescription').val(selectedServiceRow.children('td').eq(3).text());
+            $('#editServiceModal').modal('show');
+        });
+        $('#saveEditBtn').click(function() {
+            var serviceName = $('#editServiceName').val();
+            var port = $('#editPort').val();
+            var description = $('#editDescription').val();
+            selectedServiceRow.children('td').eq(1).text(serviceName);
+            selectedServiceRow.children('td').eq(2).text(port);
+            selectedServiceRow.children('td').eq(3).text(description);
+            $('#editServiceModal').modal('hide');
+        });
+
+        // 删除服务
+        $('#deleteServiceBtn').click(function() {
+            var selectedService = $('#serviceTable input[type=checkbox]:checked');
+            if (selectedService.length < 1) {
+            alert('请选择需要删除的服务！');
+            return;
+            }
+            selectedService.parent().parent().remove();
+        });
+
+        // 添加节点
+        $('#saveNodeBtn').click(function() {
+            var nodeAddress = $('#nodeAddress').val();
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var service = $('#serviceSelect option:selected').text();
+            $('#addNodeModal').modal('hide');
+            $('#nodeTable').append('<tr>\
+                                    <td><input type="checkbox"></td>\
+                                    <td>' + nodeAddress + '</td>\
+                                    <td>' + username + '</td>\
+                                    <td>' + service + '</td>\
+                                    </tr>');
+        });
+
+        // 查看节点
+        var selectedNodeRow;
+        $('#viewNodeBtn').click(function() {
+            var selectedNode = $('#nodeTable input[type=checkbox]:checked');
+            if (selectedNode.length != 1) {
+            alert('请选择一个节点进行查看！');
+            return;
+            }
+            selectedNodeRow = selectedNode.parent().parent();
+            $('#viewNodeAddress').val(selectedNodeRow.children('td').eq(1).text());
+            $('#viewUsername').val(selectedNodeRow.children('td').eq(2).text());
+            $('#viewPassword').val('********');
+            $('#viewService').val(selectedNodeRow.children('td').eq(3).text());
+            $('#viewNodeModal').modal('show');
+        });
+
+        // 删除节点
+        $('#deleteNodeBtn').click(function() {
+            var selectedNode = $('#nodeTable input[type=checkbox]:checked');
+            if (selectedNode.length < 1) {
+            alert('请选择需要删除的节点！');
+            return;
+            }
+            selectedNode.parent().parent().remove();
+        });
+        });
+
+  </script>
+</body>
+</html>

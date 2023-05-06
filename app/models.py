@@ -1,10 +1,11 @@
 from .extensions import db
-from flask_bcrypt import generate_password_hash
+from flask_login import UserMixin
+from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime
 from hashlib import md5
 import uuid
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.String(32), primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -16,9 +17,15 @@ class User(db.Model):
         self.id = str(uuid.uuid4())
         self.name = name
         self.email = email
-        self.password = generate_password_hash(password)
+        self.password = generate_password_hash(password).decode('utf-8')
         self.token = md5(self.id.encode('utf-8')).hexdigest()
         self.create_time = datetime.now()
+    
+    def get_id(self):
+        return self.id
+    
+    def authenticate(self, password):
+        return check_password_hash(self.password, password)
 
 
 class Server(db.Model):

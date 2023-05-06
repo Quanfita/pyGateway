@@ -1,6 +1,7 @@
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
+
 # 初始化跨域中间件
 def init_cors(app):
     CORS(app)

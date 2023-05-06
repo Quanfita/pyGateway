@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>网关管理界面</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <script src="script.js"></script> -->
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="margin-top: 30%;">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="card mt-4">
+                <div class="card-header">
+                    <h4 class="text-center">登录</h4>
+                </div>
+                <div class="card-body">
+                    <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-block" id="login">登录</button>
+                    </form>
+                </div>
+                <!-- <div class="card-footer">
+                    <p class="text-muted text-center">还没有账号？<a href="#">立即注册</a></p>
+                </div> -->
+                </div>
+          </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#login').click(function(event) {
+                event.preventDefault();
+                var username = $('#username').val();
+                var password = $('#password').val();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: '/login',
+                    data: JSON.stringify({
+                        username: username,
+                        password: password
+                    }),
+                    success: function(data){
+                        console.log(data);
+                        location.href = '/index';
+                    }
+                });
+                // // 进行登录验证，下面代码仅为示例
+                // if (username === 'admin' && password === '123456') {
+                // alert('登录成功');
+                // } else {
+                // alert('登录失败');
+                // }
+            });
+        });
+    </script>  
+</body>
+</html>

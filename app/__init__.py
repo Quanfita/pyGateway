@@ -1,8 +1,8 @@
 from flask import Flask, request, Response
-from .extensions import db, restfulapi, cors, redis_store, limiter, bcrypt
+from .extensions import db, restfulapi, cors, redis_store, limiter, bcrypt, login_manager
 from .middleware import init_middleware
 from .api.endpoints.user import user_bp
-from .views import MainAPI
+from .views import LoginView, IndexView
 from .route import Route
 from .balancer import Balancer
 from utils.auth import Auth
@@ -23,6 +23,7 @@ def create_app():
     cors.init_app(app)
     limiter.init_app(app)
     bcrypt.init_app(app)
+    login_manager.init_app(app)
 
     # 注册 Blueprint
     app.register_blueprint(user_bp, url_prefix='/user')
@@ -36,7 +37,8 @@ with app.app_context():
     app_route = Route()
     balancer = Balancer(app.config['BALANCE_MODE'])
 
-restfulapi.add_resource(MainAPI, '/')
+app.add_url_rule('/login', view_func=LoginView.as_view('login'))
+app.add_url_rule('/index', view_func=IndexView.as_view('index'))
 
 # 添加请求转发和负载均衡
 @app.before_request
