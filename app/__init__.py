@@ -34,7 +34,6 @@ app = create_app()
 
 with app.app_context():
     auth = Auth(app.config['ENCRYPTION'])
-    app_route = Route()
     balancer = Balancer(app.config['BALANCE_MODE'])
 
 app.add_url_rule('/login', view_func=LoginView.as_view('login'))
@@ -45,6 +44,7 @@ app.add_url_rule('/index', view_func=IndexView.as_view('index'))
 def before_request():
     # request.headers.add('X-Forwarded-For', request.remote_addr)
     response = None
+    app_route = Route()
     slug = app_route.get_slug(request.url)
     if app_route.check_route(request.url):
         token = request.args.get('token', '')

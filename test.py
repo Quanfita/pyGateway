@@ -6,7 +6,7 @@ from hashlib import sha256
 
 if __name__ == '__main__':
     url = 'http://127.0.0.1:5000/test/test1'
-    token = '9cd18e53c697b07d7af870b2455cd474'
+    token = '64c37959d4d10e18ae3f53eadfba77f4'
     timestamp = str(time.time())
     signature = sha256('-'.join([token, timestamp]).encode('utf-8')).hexdigest()
     data = {}

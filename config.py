@@ -1,6 +1,10 @@
 import os
 
 BASE_DIR = os.path.dirname(__file__)
+DB_DIR = os.path.join(BASE_DIR, 'db')
+
+if not os.path.exists(DB_DIR):
+    os.mkdir(DB_DIR)
 
 # Flask Setting
 DEBUG = True
@@ -9,7 +13,7 @@ SECRET_KEY = 'your_secret_key'
 JSON_SORT_KEYS = False
 
 # Database Setting
-SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+SQLALCHEMY_DATABASE_URI = f'sqlite:///{DB_DIR}/gateway.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # JWT Setting

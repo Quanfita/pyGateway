@@ -27,19 +27,19 @@ class Balancer:
     
     def _normal_server_pool(self):
         service = Service.query.filter_by(slug=self._slug).first()
-        return [f'{server.host}:{server.port}' for server in service.servers]
+        return [f'{server.host}:{service.port}' for server in service.servers]
     
     def _weight_server_pool(self):
         service = Service.query.filter_by(slug=self._slug).first()
-        return [f'{server.host}:{server.port}' for server in service.servers  for _ in range(server.process_num)]
+        return [f'{server.host}:{service.port}' for server in service.servers  for _ in range(server.process_num)]
     
     def _cycle_server_pool(self):
         service = Service.query.filter_by(slug=self._slug).first()
-        return cycle([f'{server.host}:{server.port}' for server in service.servers])
+        return cycle([f'{server.host}:{service.port}' for server in service.servers])
     
     def _cycle_weight_server_pool(self):
         service = Service.query.filter_by(slug=self._slug).first()
-        return cycle([f'{server.host}:{server.port}' for server in service.servers  for _ in range(server.process_num)])
+        return cycle([f'{server.host}:{service.port}' for server in service.servers  for _ in range(server.process_num)])
     
     def set_mode(self, mode: str) -> None:
         self._method = self._method_map.get(mode, self._random_mode)
