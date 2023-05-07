@@ -1,7 +1,6 @@
 from flask import Flask, request, Response
 from .extensions import db, restfulapi, cors, redis_store, limiter, bcrypt, login_manager
 from .middleware import init_middleware
-from .api.endpoints.user import user_bp
 from .views import LoginView, IndexView
 from .route import Route
 from .balancer import Balancer
@@ -24,9 +23,6 @@ def create_app():
     limiter.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
-
-    # 注册 Blueprint
-    app.register_blueprint(user_bp, url_prefix='/user')
 
     return app
 

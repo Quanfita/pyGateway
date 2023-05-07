@@ -64,7 +64,7 @@ class Server(db.Model):
     name = db.Column(db.String(50), nullable=False)
     host = db.Column(db.String(16), nullable=False)
     process_num = db.Column(db.Integer, nullable=False)
-    services = db.relationship('Service', secondary='server_services')
+    services = db.relationship('Service', secondary='server_services', back_populates="server")
 
     def __init__(self, host, name, process_num):
         self.id = shortuuid.encode(uuid.uuid4())
@@ -81,7 +81,7 @@ class Service(db.Model):
     name = db.Column(db.String(50), nullable=False)
     port = db.Column(db.Integer, nullable=False)
     slug = db.Column(db.String(16), nullable=False)
-    servers = db.relationship('Server', secondary='server_services')
+    servers = db.relationship('Server', secondary='server_services', back_populates="service")
 
     def __init__(self, name, slug, port):
         self.id = shortuuid.encode(uuid.uuid4())

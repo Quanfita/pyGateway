@@ -13,3 +13,4 @@ pycryptodome==3.17
 PyYAML==6.0
 requests==2.27.1
 SQLAlchemy==1.4.47
+shortuuid==1.0.11
